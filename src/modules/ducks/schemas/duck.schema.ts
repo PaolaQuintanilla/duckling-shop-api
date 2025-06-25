@@ -14,6 +14,9 @@ export class Duck extends Document {
 
   @Prop({ required: true })
   price: number;
+
+  @Prop({ required: true })
+  isErased: boolean;
 }
 
 export const DuckSchema = SchemaFactory.createForClass(Duck);

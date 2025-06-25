@@ -40,3 +40,4 @@ export class DucksController {
     return this.ducksService.remove(id);
   }
 }
+// http type exceptions for controllers

@@ -7,7 +7,6 @@ import { DuckRepository } from './repositories/duck.repository';
 
 @Module({
   imports: [
-    DucksModule,
     MongooseModule.forFeature([{ name: Duck.name, schema: DuckSchema }]),
   ],
   controllers: [DucksController],
