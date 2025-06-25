@@ -2,10 +2,10 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { OrderRepository } from '../repositories/order.repository';
 import { CreateOrderDto } from '../dtos/create-order.dto';
 import { Order } from '../schemas/order.schema';
-import { PackageFactory } from '../../packages/package-factory';
-import { FillerFactory } from '../../fillers/filler-factory';
+import { PackageFactory } from './packaging/packages/package-factory';
+import { FillerFactory } from './packaging/fillers/filler-factory';
 import { OrderResponseDto } from '../dtos/order-response.dto';
-import { PriceCalculatorService } from '../../../common/utils/price-calculator';
+import { PriceCalculatorService } from './price-calculator.service';
 import { DuckRepository } from 'src/modules/ducks/repositories/duck.repository';
 
 @Injectable()

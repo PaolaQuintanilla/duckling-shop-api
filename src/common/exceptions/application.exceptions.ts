@@ -6,7 +6,7 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { IException } from './exceptions.interface';
+import { IException } from '../interfaces/exceptions.interface';
 
 @Injectable()
 export class ApplicationExceptions implements IException {

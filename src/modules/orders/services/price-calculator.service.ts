@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { ShippingTypeEnum } from '../../common/enums/shipping-type.enum';
-import { IPriceCalculator } from '../interfaces/price-calculator.interface';
-import { PriceBreakdown } from '../interfaces/price-breakdown.interface';
+import { ShippingTypeEnum } from '../../../common/enums/shipping-type.enum';
+import { IPriceCalculator } from '../../../common/interfaces/price-calculator.interface';
+import { PriceBreakdown } from '../../../common/interfaces/price-breakdown.interface';
 
 @Injectable()
 export class PriceCalculatorService implements IPriceCalculator {

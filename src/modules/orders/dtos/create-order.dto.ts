@@ -17,7 +17,7 @@ export class CreateOrderDto {
   color: string;
 
   @IsNotEmpty()
-  @IsEnum(SizeEnum)
+  @IsEnum(SizeEnum, { message: 'bad size' })
   @IsString()
   size: SizeEnum;
 
@@ -29,6 +29,7 @@ export class CreateOrderDto {
   @IsString()
   destinyCountry: string;
 
+  @IsString()
   @IsEnum(ShippingTypeEnum, {
     message: 'Shipping type not supported',
   })

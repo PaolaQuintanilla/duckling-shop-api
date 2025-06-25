@@ -8,7 +8,7 @@ export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
   @Post('/ducks/:duckId')
-  async createOrder(
+  createOrder(
     @Param('duckId') duckId: string,
     @Body() createOrderDto: Omit<CreateOrderDto, 'duckId'>,
   ): Promise<Order> {

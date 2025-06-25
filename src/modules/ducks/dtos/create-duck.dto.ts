@@ -6,17 +6,19 @@ import {
   IsMongoId,
 } from 'class-validator';
 import { SizeEnum } from '../../../common/enums/size.enum';
+import { ColorEnum } from 'src/common/enums/color.enum';
 
 export class CreateDuckDto {
   @IsMongoId()
   duckId: string;
 
   @IsString()
+  @IsEnum(ColorEnum, { message: 'bad color' })
   @IsNotEmpty()
-  color: string;
+  color: ColorEnum;
 
   @IsString()
-  @IsEnum(SizeEnum)
+  @IsEnum(SizeEnum, { message: 'bad size' })
   @IsNotEmpty()
   size: SizeEnum;
 

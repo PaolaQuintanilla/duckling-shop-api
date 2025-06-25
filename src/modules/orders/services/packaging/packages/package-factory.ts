@@ -2,7 +2,7 @@ import { Package } from './package.interface';
 import { WoodPackage } from './wood-package';
 import { CardboardPackage } from './cardboard-package';
 import { PlasticPackage } from './plastic-package';
-import { SizeEnum } from '../../common/enums/size.enum';
+import { SizeEnum } from '../../../../../common/enums/size.enum';
 
 export class PackageFactory {
   static createPackage(size: SizeEnum): Package {
