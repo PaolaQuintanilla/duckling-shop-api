@@ -13,7 +13,7 @@ export class FillerFactory {
       case 'sea':
         return new SeaShippingFiller();
       default:
-        throw new Error('Tipo de envío no válido');
+        throw new Error('Shipping type not supported');
     }
   }
 }

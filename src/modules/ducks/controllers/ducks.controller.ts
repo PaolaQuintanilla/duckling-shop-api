@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Param,
-  Patch,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Patch } from '@nestjs/common';
 import { DucksService } from '../services/ducks.service';
 import { CreateDuckDto } from '../dtos/create-duck.dto';
 import { UpdateDuckDto } from '../dtos/update-duck.dto';
@@ -35,9 +27,10 @@ export class DucksController {
     return this.ducksService.update(id, dto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.ducksService.remove(id);
+  @Patch(':id/erase')
+  async eraseDuck(@Param('id') id: string) {
+    const duck = await this.ducksService.softDeleteDuck(id);
+    return { message: `Duck with id ${id} has been marked as erased`, duck };
   }
 }
 // http type exceptions for controllers

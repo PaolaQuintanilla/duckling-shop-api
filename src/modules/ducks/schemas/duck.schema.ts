@@ -15,7 +15,7 @@ export class Duck extends Document {
   @Prop({ required: true })
   price: number;
 
-  @Prop({ required: true })
+  @Prop({ required: true, default: false })
   isErased: boolean;
 }
 

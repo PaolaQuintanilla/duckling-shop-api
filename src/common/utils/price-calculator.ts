@@ -1,5 +1,7 @@
-export class PriceCalculator {
-  static calculate(
+import { IPriceCalculator } from '../interfaces/price-calculator.interface';
+
+export class PriceCalculator implements IPriceCalculator {
+  calculate(
     order,
     packageType,
     shippingType,

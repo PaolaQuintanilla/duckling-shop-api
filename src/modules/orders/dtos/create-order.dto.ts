@@ -1,4 +1,5 @@
 import { IsEnum, IsInt, IsNotEmpty, IsString } from 'class-validator';
+import { ShippingType } from '../enums/shipping-type.enum';
 
 export class CreateOrderDto {
   @IsNotEmpty()
@@ -17,7 +18,7 @@ export class CreateOrderDto {
   @IsString()
   destinyCountry: string;
 
-  @IsEnum(['land', 'air', 'sea'])
+  @IsEnum(ShippingType)
   @IsNotEmpty()
   shippingType: string;
 }

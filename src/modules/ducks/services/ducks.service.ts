@@ -27,9 +27,14 @@ export class DucksService {
     return duck;
   }
 
-  async remove(id: string) {
-    const duck = await this.duckRepo.delete(id);
-    if (!duck) throw new NotFoundException('Duck not found');
-    return duck;
+  async softDeleteDuck(id: string) {
+    const duck = await this.duckRepo.findOne(id);
+
+    if (!duck) {
+      throw new NotFoundException(`Duck with id ${id} not found`);
+    }
+    duck.isErased = true;
+
+    return duck.save();
   }
 }

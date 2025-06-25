@@ -9,7 +9,10 @@ import { PriceCalculator } from '../../../common/utils/price-calculator';
 
 @Injectable()
 export class OrdersService {
-  constructor(private readonly orderRepository: OrderRepository) {}
+  constructor(
+    private readonly orderRepository: OrderRepository,
+    private readonly priceCalculator: PriceCalculator,
+  ) {}
 
   async createOrder(createOrderDto: CreateOrderDto): Promise<Order> {
     const { size, shippingType, color, amountDucks, destinyCountry } =
@@ -32,7 +35,7 @@ export class OrdersService {
 
     const savedOrder = await this.orderRepository.create(order);
 
-    const { total, discounts, increments } = PriceCalculator.calculate(
+    const { total, discounts, increments } = this.priceCalculator.calculate(
       savedOrder,
       packageDuck.getPackagingType(),
       shippingType,
