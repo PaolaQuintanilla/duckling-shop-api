@@ -1,66 +1,95 @@
+import { Injectable } from '@nestjs/common';
+import { ShippingTypeEnum } from '../../common/enums/shipping-type.enum';
 import { IPriceCalculator } from '../interfaces/price-calculator.interface';
+import { PriceBreakdown } from '../interfaces/price-breakdown.interface';
 
-export class PriceCalculator implements IPriceCalculator {
+@Injectable()
+export class PriceCalculatorService implements IPriceCalculator {
   calculate(
-    order,
-    packageType,
-    shippingType,
-  ): { total: number; discounts: string; increments: string } {
-    let total = order.amountDucks * 10;
-    let discounts = '';
-    let increments = '';
+    unitPrice: number,
+    quantity: number,
+    material: string,
+    country: string,
+    shippingType: ShippingTypeEnum,
+  ): PriceBreakdown {
+    const basePrice = unitPrice * quantity;
+    let total = basePrice;
 
-    // Discount
-    if (order.amountDucks > 100) {
-      discounts += `Descuento por cantidad: -${total * 0.2} (20%)\n`;
-      total -= total * 0.2;
+    let discounts = 0;
+    let increments = 0;
+
+    // 20% discount for > 100 items
+    if (quantity > 100) {
+      const discount = total * 0.2;
+      total -= discount;
+      discounts += discount;
     }
 
-    // increment package type
-    if (packageType === 'wood') {
-      increments += `Incremento por paquete de madera: +${total * 0.05} (5%)\n`;
-      total += total * 0.05;
-    } else if (packageType === 'plastic') {
-      increments += `Incremento por paquete de plástico: +${total * 0.1} (10%)\n`;
-      total += total * 0.1;
-    } else if (packageType === 'cardboard') {
-      discounts += `Descuento por paquete de cartón: -${total * 0.01} (1%)\n`;
-      total -= total * 0.01;
-    }
-
-    // Increment by Country destination
-    if (order.destinyCountry === 'USA') {
-      increments += `Incremento por destino a USA: +${total * 0.18} (18%)\n`;
-      total += total * 0.18;
-    } else if (order.destinyCountry === 'Bolivia') {
-      increments += `Incremento por destino a Bolivia: +${total * 0.13} (13%)\n`;
-      total += total * 0.13;
-    } else if (order.destinyCountry === 'India') {
-      increments += `Incremento por destino a India: +${total * 0.19} (19%)\n`;
-      total += total * 0.19;
-    } else {
-      increments += `Incremento por destino internacional: +${total * 0.15} (15%)\n`;
-      total += total * 0.15;
-    }
-
-    // 4. Increment by type shipping
-    if (shippingType === 'sea') {
-      increments += `Incremento por envío marítimo: +400 USD\n`;
-      total += 400;
-    } else if (shippingType === 'land') {
-      increments += `Incremento por envío terrestre: +${10 * order.amountDucks} USD\n`;
-      total += 10 * order.amountDucks;
-    } else if (shippingType === 'air') {
-      increments += `Incremento por envío aéreo: +${30 * order.amountDucks} USD\n`;
-      total += 30 * order.amountDucks;
-
-      // Discount in 1000 units 15%
-      if (order.amountDucks > 1000) {
-        discounts += `Descuento aéreo por más de 1000 unidades: -${total * 0.15} (15%)\n`;
-        total -= total * 0.15;
+    // Material adjustment
+    switch (material) {
+      case 'wood': {
+        const increment = total * 0.05;
+        total += increment;
+        increments += increment;
+        break;
+      }
+      case 'plastic': {
+        const increment = total * 0.1;
+        total += increment;
+        increments += increment;
+        break;
+      }
+      case 'cardboard': {
+        const discount = total * 0.01;
+        total -= discount;
+        discounts += discount;
+        break;
       }
     }
 
-    return { total, discounts, increments };
+    // Country tax
+    const countryTaxMap: Record<string, number> = {
+      USA: 0.18,
+      Bolivia: 0.13,
+      India: 0.19,
+    };
+    const countryTax = countryTaxMap[country] ?? 0.15;
+    const countryIncrement = total * countryTax;
+    total += countryIncrement;
+    increments += countryIncrement;
+
+    // Shipping costs
+    switch (shippingType) {
+      case ShippingTypeEnum.SEA:
+        total += 400;
+        increments += 400;
+        break;
+
+      case ShippingTypeEnum.LAND: {
+        const landFee = 10 * quantity;
+        total += landFee;
+        increments += landFee;
+        break;
+      }
+
+      case ShippingTypeEnum.AIR: {
+        let airFee = 30 * quantity;
+        if (quantity > 1000) {
+          const discount = airFee * 0.15;
+          airFee -= discount;
+          discounts += discount;
+        }
+        total += airFee;
+        increments += airFee;
+        break;
+      }
+    }
+
+    return {
+      basePrice: parseFloat(basePrice.toFixed(2)),
+      discounts: parseFloat(discounts.toFixed(2)).toString(),
+      increments: parseFloat(increments.toFixed(2)).toString(),
+      finalPrice: parseFloat(total.toFixed(2)),
+    };
   }
 }

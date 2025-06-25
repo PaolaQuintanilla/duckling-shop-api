@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Param, Post } from '@nestjs/common';
 import { OrdersService } from '../services/orders.service';
 import { CreateOrderDto } from '../dtos/create-order.dto';
 import { Order } from '../schemas/order.schema';
@@ -7,8 +7,11 @@ import { Order } from '../schemas/order.schema';
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
-  @Post()
-  async createOrder(@Body() createOrderDto: CreateOrderDto): Promise<Order> {
-    return this.ordersService.createOrder(createOrderDto);
+  @Post('/ducks/:duckId')
+  async createOrder(
+    @Param('duckId') duckId: string,
+    @Body() createOrderDto: Omit<CreateOrderDto, 'duckId'>,
+  ): Promise<Order> {
+    return this.ordersService.createOrder({ ...createOrderDto, duckId });
   }
 }

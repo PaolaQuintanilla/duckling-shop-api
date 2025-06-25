@@ -11,5 +11,6 @@ import { DuckRepository } from './repositories/duck.repository';
   ],
   controllers: [DucksController],
   providers: [DucksService, DuckRepository],
+  exports: [DuckRepository],
 })
 export class DucksModule {}

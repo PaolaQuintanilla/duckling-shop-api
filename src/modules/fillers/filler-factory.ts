@@ -2,6 +2,7 @@ import { FillerStrategy } from './filler-strategy.interface';
 import { AirShippingFiller } from './air-shipping-filler';
 import { LandShippingFiller } from './land-shipping-filler';
 import { SeaShippingFiller } from './sea-shipping-filler';
+import { BadRequestException } from '@nestjs/common';
 
 export class FillerFactory {
   static getFillerStrategy(shippingType: string): FillerStrategy {
@@ -13,7 +14,7 @@ export class FillerFactory {
       case 'sea':
         return new SeaShippingFiller();
       default:
-        throw new Error('Shipping type not supported');
+        throw new BadRequestException('Shipping type not supported..');
     }
   }
 }

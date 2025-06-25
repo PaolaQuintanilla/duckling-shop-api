@@ -1,14 +1,24 @@
-// create-duck.dto.ts
-import { IsString, IsNumber, IsNotEmpty } from 'class-validator';
+import {
+  IsString,
+  IsNumber,
+  IsNotEmpty,
+  IsEnum,
+  IsMongoId,
+} from 'class-validator';
+import { SizeEnum } from '../../../common/enums/size.enum';
 
 export class CreateDuckDto {
+  @IsMongoId()
+  duckId: string;
+
   @IsString()
   @IsNotEmpty()
   color: string;
 
   @IsString()
+  @IsEnum(SizeEnum)
   @IsNotEmpty()
-  size: string;
+  size: SizeEnum;
 
   @IsNumber()
   quantity: number;

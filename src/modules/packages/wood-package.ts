@@ -6,9 +6,7 @@ export class WoodPackage implements Package {
   }
 
   getFiller(shippingType: string): string {
-    if (shippingType === 'air') {
-      return 'Bolitas de plastoformo';
-    } else if (shippingType === 'land') {
+    if (shippingType === 'air' || shippingType === 'land') {
       return 'Bolitas de plastoformo';
     } else if (shippingType === 'sea') {
       return 'Bolitas absorbentes de humedad y bolsas con burbuja';

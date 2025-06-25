@@ -1,20 +1,25 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { OrderRepository } from '../repositories/order.repository';
 import { CreateOrderDto } from '../dtos/create-order.dto';
 import { Order } from '../schemas/order.schema';
 import { PackageFactory } from '../../packages/package-factory';
 import { FillerFactory } from '../../fillers/filler-factory';
 import { OrderResponseDto } from '../dtos/order-response.dto';
-import { PriceCalculator } from '../../../common/utils/price-calculator';
+import { PriceCalculatorService } from '../../../common/utils/price-calculator';
+import { DuckRepository } from 'src/modules/ducks/repositories/duck.repository';
 
 @Injectable()
 export class OrdersService {
   constructor(
     private readonly orderRepository: OrderRepository,
-    private readonly priceCalculator: PriceCalculator,
+    private readonly priceCalculatorService: PriceCalculatorService,
+    private readonly duckRepo: DuckRepository,
   ) {}
 
   async createOrder(createOrderDto: CreateOrderDto): Promise<Order> {
+    const duck = await this.duckRepo.findOne(createOrderDto.duckId);
+    if (!duck) throw new NotFoundException('Duck not found');
+
     const { size, shippingType, color, amountDucks, destinyCountry } =
       createOrderDto;
 
@@ -33,16 +38,19 @@ export class OrdersService {
     order.destinyCountry = destinyCountry;
     order.shippingType = shippingType;
 
-    const savedOrder = await this.orderRepository.create(order);
+    const savedOrder = await this.orderRepository.create(createOrderDto);
 
-    const { total, discounts, increments } = this.priceCalculator.calculate(
-      savedOrder,
-      packageDuck.getPackagingType(),
-      shippingType,
-    );
+    const { discounts, increments, finalPrice } =
+      this.priceCalculatorService.calculate(
+        duck.price,
+        createOrderDto.amountDucks,
+        packageDuck.getPackagingType(),
+        createOrderDto.destinyCountry,
+        createOrderDto.shippingType,
+      );
 
     return new OrderResponseDto(
-      savedOrder._id,
+      // savedOrder._id,
       savedOrder.color,
       savedOrder.size,
       savedOrder.amountDucks,
@@ -50,7 +58,7 @@ export class OrdersService {
       savedOrder.shippingType,
       packageDuck.getPackagingType(),
       filler,
-      total,
+      finalPrice,
       discounts,
       increments,
     );

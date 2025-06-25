@@ -2,17 +2,18 @@ import { Package } from './package.interface';
 import { WoodPackage } from './wood-package';
 import { CardboardPackage } from './cardboard-package';
 import { PlasticPackage } from './plastic-package';
+import { SizeEnum } from '../../common/enums/size.enum';
 
 export class PackageFactory {
-  static createPackage(size: string): Package {
+  static createPackage(size: SizeEnum): Package {
     switch (size) {
-      case 'XLarge':
-      case 'Large':
+      case SizeEnum.XLarge:
+      case SizeEnum.Large:
         return new WoodPackage();
-      case 'Medium':
+      case SizeEnum.Medium:
         return new CardboardPackage();
-      case 'Small':
-      case 'Xsmall':
+      case SizeEnum.Small:
+      case SizeEnum.XSmall:
         return new PlasticPackage();
       default:
         throw new Error('Tamaño no válido');

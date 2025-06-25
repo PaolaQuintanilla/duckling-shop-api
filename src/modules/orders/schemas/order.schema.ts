@@ -1,14 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { ShippingType } from '../enums/shipping-type.enum';
+import { ShippingTypeEnum } from '../../../common/enums/shipping-type.enum';
 
 export type OrderDocument = Order & Document;
 
 @Schema()
 export class Order {
-  @Prop({ select: false })
-  _id: string;
-
   @Prop({ required: true })
   color: string;
 
@@ -21,7 +18,7 @@ export class Order {
   @Prop({ required: true })
   destinyCountry: string;
 
-  @Prop({ required: true, enum: ShippingType })
+  @Prop({ required: true, enum: ShippingTypeEnum })
   shippingType: string;
 }
 
