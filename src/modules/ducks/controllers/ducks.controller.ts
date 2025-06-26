@@ -9,7 +9,7 @@ export class DucksController {
 
   @Post()
   create(@Body() dto: CreateDuckDto) {
-    return this.ducksService.create(dto);
+    return this.ducksService.createOrUpdateDuck(dto);
   }
 
   @Get()

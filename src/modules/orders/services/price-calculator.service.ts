@@ -18,14 +18,12 @@ export class PriceCalculatorService implements IPriceCalculator {
     let discounts = 0;
     let increments = 0;
 
-    // 20% discount for > 100 items
     if (quantity > 100) {
       const discount = total * 0.2;
       total -= discount;
       discounts += discount;
     }
 
-    // Material adjustment
     switch (material) {
       case 'wood': {
         const increment = total * 0.05;
@@ -47,7 +45,6 @@ export class PriceCalculatorService implements IPriceCalculator {
       }
     }
 
-    // Country tax
     const countryTaxMap: Record<string, number> = {
       USA: 0.18,
       Bolivia: 0.13,
@@ -58,7 +55,6 @@ export class PriceCalculatorService implements IPriceCalculator {
     total += countryIncrement;
     increments += countryIncrement;
 
-    // Shipping costs
     switch (shippingType) {
       case ShippingTypeEnum.SEA:
         total += 400;

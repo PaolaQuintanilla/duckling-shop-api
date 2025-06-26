@@ -4,12 +4,14 @@ import {
   IsNotEmpty,
   IsEnum,
   IsMongoId,
+  IsOptional,
 } from 'class-validator';
 import { SizeEnum } from '../../../common/enums/size.enum';
 import { ColorEnum } from 'src/common/enums/color.enum';
 
 export class CreateDuckDto {
   @IsMongoId()
+  @IsOptional()
   duckId: string;
 
   @IsString()

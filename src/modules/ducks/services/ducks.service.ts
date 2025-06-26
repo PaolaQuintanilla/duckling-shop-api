@@ -7,8 +7,20 @@ import { DuckRepository } from '../repositories/duck.repository';
 export class DucksService {
   constructor(private readonly duckRepo: DuckRepository) {}
 
-  async create(dto: CreateDuckDto) {
-    return this.duckRepo.create(dto);
+  async createOrUpdateDuck(createDuckDto: CreateDuckDto) {
+    const { color, size, price, quantity } = createDuckDto;
+
+    const existingDuck = await this.duckRepo.findByColorSizeAndPrice(
+      color,
+      size,
+      price,
+    );
+
+    if (existingDuck) {
+      return this.duckRepo.updateQuantity(existingDuck, quantity);
+    } else {
+      return this.duckRepo.create(createDuckDto);
+    }
   }
 
   async findAll() {
@@ -28,7 +40,7 @@ export class DucksService {
   }
 
   async softDeleteDuck(id: string) {
-    const duck = await this.duckRepo.findOne(id);
+    const duck = await this.duckRepo.findById(id);
 
     if (!duck) {
       throw new NotFoundException(`Duck with id ${id} not found`);
