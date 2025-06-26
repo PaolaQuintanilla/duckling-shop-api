@@ -6,7 +6,7 @@ import { PackageFactory } from './packaging/packages/package-factory';
 import { FillerFactory } from './packaging/fillers/filler-factory';
 import { OrderResponseDto } from '../dtos/order-response.dto';
 import { PriceCalculatorService } from './price-calculator.service';
-import { DuckRepository } from 'src/modules/ducks/repositories/duck.repository';
+import { DuckRepository } from '../../../modules/ducks/repositories/duck.repository';
 
 @Injectable()
 export class OrdersService {

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Patch } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Patch, Put } from '@nestjs/common';
 import { DucksService } from '../services/ducks.service';
 import { CreateDuckDto } from '../dtos/create-duck.dto';
 import { UpdateDuckDto } from '../dtos/update-duck.dto';
@@ -22,7 +22,7 @@ export class DucksController {
     return this.ducksService.findOne(id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(@Param('id') id: string, @Body() dto: UpdateDuckDto) {
     return this.ducksService.update(id, dto);
   }

@@ -7,7 +7,7 @@ import {
   IsOptional,
 } from 'class-validator';
 import { SizeEnum } from '../../../common/enums/size.enum';
-import { ColorEnum } from 'src/common/enums/color.enum';
+import { ColorEnum } from '../../../common/enums/color.enum';
 
 export class CreateDuckDto {
   @IsMongoId()
