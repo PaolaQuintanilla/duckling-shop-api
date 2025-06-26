@@ -98,3 +98,45 @@ Create a new order for a specific duck.
 | Param    | Type   | Description        |
 | -------- | ------ | ------------------ |
 | `duckId` | string | The ID of the duck |
+
+### Endpoint
+
+**POST** `/orders/ducks/:duckId`
+
+Creates an order for a specific duck using advanced business rules like dynamic pricing, filler selection, packaging type, and discounts/increments.
+
+---
+
+### 🧪 Example Request
+
+**URL:**
+http://localhost:3000/orders/ducks/685d4e4bd7ec88766ab22fd1
+
+**Request Body:**
+
+```json
+{
+  "color": "red",
+  "size": "Small",
+  "amountDucks": 120,
+  "destinyCountry": "USA",
+  "shippingType": "air"
+}
+```
+
+**Response:**
+
+```json
+{
+  "color": "red",
+  "size": "Small",
+  "amountDucks": 120,
+  "destinyCountry": "USA",
+  "shippingType": "air",
+  "packageType": "plastic",
+  "filler": "Bolsas con burbuja",
+  "totalToPay": 7338.24,
+  "discountsDetails": "720",
+  "incrementsDetails": "4458.24"
+}
+```
