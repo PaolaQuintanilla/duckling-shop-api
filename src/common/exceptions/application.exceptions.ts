@@ -1,10 +1,8 @@
 import {
   BadRequestException,
-  ForbiddenException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { IException } from '../interfaces/exceptions.interface';
 
@@ -20,13 +18,5 @@ export class ApplicationExceptions implements IException {
 
   public internalServerErrorException(message?: string): void {
     throw new InternalServerErrorException(message);
-  }
-
-  public forbiddenException(message?: string): void {
-    throw new ForbiddenException(message);
-  }
-
-  public unauthorizedException(message?: string): void {
-    throw new UnauthorizedException(message);
   }
 }

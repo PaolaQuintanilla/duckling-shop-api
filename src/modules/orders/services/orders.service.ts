@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { OrderRepository } from '../repositories/order.repository';
 import { CreateOrderDto } from '../dtos/create-order.dto';
 import { Order } from '../schemas/order.schema';
@@ -7,18 +7,20 @@ import { FillerFactory } from './packaging/fillers/filler-factory';
 import { OrderResponseDto } from '../dtos/order-response.dto';
 import { PriceCalculatorService } from './price-calculator.service';
 import { DuckRepository } from '../../../modules/ducks/repositories/duck.repository';
+import { ApplicationExceptions } from '../../../common/exceptions/application.exceptions';
 
 @Injectable()
 export class OrdersService {
   constructor(
+    private exception: ApplicationExceptions,
     private readonly orderRepository: OrderRepository,
     private readonly priceCalculatorService: PriceCalculatorService,
     private readonly duckRepo: DuckRepository,
   ) {}
 
   async createOrder(createOrderDto: CreateOrderDto): Promise<Order> {
-    const duck = await this.duckRepo.findOne(createOrderDto.duckId);
-    if (!duck) throw new NotFoundException('Duck not found');
+    const duck = await this.duckRepo.findById(createOrderDto.duckId);
+    if (!duck) this.exception.notFoundException('Duck not found');
 
     const { size, shippingType, color, amountDucks, destinyCountry } =
       createOrderDto;
@@ -50,7 +52,6 @@ export class OrdersService {
       );
 
     return new OrderResponseDto(
-      // savedOrder._id,
       savedOrder.color,
       savedOrder.size,
       savedOrder.amountDucks,

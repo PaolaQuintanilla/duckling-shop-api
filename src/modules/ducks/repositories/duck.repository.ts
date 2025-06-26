@@ -1,9 +1,7 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Duck } from '../schemas/duck.schema';
-import { plainToClass } from 'class-transformer';
-import { DuckDto } from '../dtos/duck.dto';
 
 @Injectable()
 export class DuckRepository {
@@ -31,30 +29,10 @@ export class DuckRepository {
       .exec();
   }
 
-  async findOne(id: string): Promise<DuckDto> {
-    const duck = await this.duckModel
-      .findOne({ _id: id, isErased: false })
-      .exec();
-
-    if (!duck) {
-      throw new NotFoundException(
-        `Duck with id ${id} not found or has been erased`,
-      );
-    }
-
-    return plainToClass(DuckDto, duck.toObject());
-  }
-
   async findById(id: string): Promise<Duck> {
     const duck = await this.duckModel
       .findOne({ _id: id, isErased: false })
       .exec();
-
-    if (!duck) {
-      throw new NotFoundException(
-        `Duck with id ${id} not found or has been erased`,
-      );
-    }
 
     return duck;
   }

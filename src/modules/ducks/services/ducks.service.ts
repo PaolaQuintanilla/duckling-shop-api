@@ -1,11 +1,20 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { plainToInstance } from 'class-transformer';
+
 import { CreateDuckDto } from '../dtos/create-duck.dto';
 import { UpdateDuckDto } from '../dtos/update-duck.dto';
+import { DuckDto } from '../dtos/duck.dto';
+
 import { DuckRepository } from '../repositories/duck.repository';
+
+import { ApplicationExceptions } from '../../../common/exceptions/application.exceptions';
 
 @Injectable()
 export class DucksService {
-  constructor(private readonly duckRepo: DuckRepository) {}
+  constructor(
+    private exception: ApplicationExceptions,
+    private readonly duckRepo: DuckRepository,
+  ) {}
 
   async createOrUpdateDuck(createDuckDto: CreateDuckDto) {
     const { color, size, price, quantity } = createDuckDto;
@@ -27,15 +36,15 @@ export class DucksService {
     return this.duckRepo.findAll();
   }
 
-  async findOne(id: string) {
-    const duck = await this.duckRepo.findOne(id);
-    if (!duck) throw new NotFoundException('Duck not found');
-    return duck;
+  async findOne(id: string): Promise<DuckDto> {
+    const duck = await this.duckRepo.findById(id);
+    if (!duck) this.exception.notFoundException('Duck not found');
+    return plainToInstance(DuckDto, duck.toObject());
   }
 
   async update(id: string, dto: UpdateDuckDto) {
     const duck = await this.duckRepo.update(id, dto);
-    if (!duck) throw new NotFoundException('Duck not found');
+    if (!duck) this.exception.notFoundException('Duck not found');
     return duck;
   }
 
@@ -43,8 +52,9 @@ export class DucksService {
     const duck = await this.duckRepo.findById(id);
 
     if (!duck) {
-      throw new NotFoundException(`Duck with id ${id} not found`);
+      this.exception.notFoundException(`Duck with id ${id} not found`);
     }
+
     duck.isErased = true;
 
     return duck.save();
