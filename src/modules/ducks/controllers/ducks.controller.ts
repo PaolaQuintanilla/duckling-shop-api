@@ -33,4 +33,3 @@ export class DucksController {
     return { message: `Duck with id ${id} has been marked as erased`, duck };
   }
 }
-// http type exceptions for controllers
