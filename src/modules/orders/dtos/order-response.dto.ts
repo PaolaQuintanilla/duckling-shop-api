@@ -1,5 +1,4 @@
 export class OrderResponseDto {
-  // readonly _id: string;
   readonly color: string;
   readonly size: string;
   readonly amountDucks: number;
@@ -12,7 +11,6 @@ export class OrderResponseDto {
   readonly incrementsDetails: string;
 
   constructor(
-    // _id: string,
     color: string,
     size: string,
     amountDucks: number,
@@ -24,7 +22,6 @@ export class OrderResponseDto {
     discountsDetails: string,
     incrementsDetails: string,
   ) {
-    // this._id = _id;
     this.color = color;
     this.size = size;
     this.amountDucks = amountDucks;
