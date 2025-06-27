@@ -1,9 +1,12 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import * as express from 'express';
+import { ExpressAdapter } from '@nestjs/platform-express';
 
+const server = express();
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, new ExpressAdapter(server));
   app.enableCors();
 
   app.useGlobalPipes(
@@ -13,6 +16,11 @@ async function bootstrap() {
       transform: true,
     }),
   );
-  await app.listen(3000);
+
+  await app.init();
 }
-bootstrap();
+bootstrap().then(() => {
+  console.log('NestJS is ready...');
+});
+
+export default server;
