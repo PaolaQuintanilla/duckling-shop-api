@@ -8,7 +8,9 @@ import { OrdersModule } from './modules/orders/orders.module';
 @Module({
   imports: [
     DucksModule,
-    MongooseModule.forRoot('mongodb://localhost:27017/ducks_db'),
+    MongooseModule.forRoot(
+      'mongodb+srv://sitiostests:sitiostests123@cluster0.yshomnd.mongodb.net/',
+    ),
     OrdersModule,
   ],
   controllers: [AppController],
