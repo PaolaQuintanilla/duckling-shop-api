@@ -13,6 +13,7 @@ export default async function bootstrap() {
       transform: true,
     }),
   );
+
   await app.init();
 }
 bootstrap();
