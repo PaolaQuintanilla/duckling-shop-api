@@ -38,6 +38,8 @@ Each module contains its own domain logic:
 
 ### 🔍 Scripts
 
+- `npm i -g @nestjs/cli` - Install nestjs
+- `npm install` - Install dependencies
 - `npm run start:dev` – Start development server with hot-reload.
 - `npm run test` – Run unit tests.
 
@@ -73,13 +75,13 @@ Stores order data related to ducks.
 
 ### 🦆 Ducks Endpoints
 
-| Method  | Endpoint           | Description                             |
-| ------- | ------------------ | --------------------------------------- |
-| `POST`  | `/ducks`           | Create a new duck                       |
-| `GET`   | `/ducks`           | Get all ducks                           |
-| `GET`   | `/ducks/:id`       | Get a single duck by ID                 |
-| `PUT`   | `/ducks/:id`       | Update a duck by ID                     |
-| `PATCH` | `/ducks/:id/erase` | Soft delete a duck (set `erased: true`) |
+| Method  | Endpoint           | Description                               |
+| ------- | ------------------ | ----------------------------------------- |
+| `POST`  | `/ducks`           | Create a new duck                         |
+| `GET`   | `/ducks`           | Get all ducks                             |
+| `GET`   | `/ducks/:id`       | Get a single duck by ID                   |
+| `PUT`   | `/ducks/:id`       | Update a duck by ID                       |
+| `PATCH` | `/ducks/:id/erase` | Soft delete a duck (set `isErased: true`) |
 
 ## 📦 Orders Endpoints
 
@@ -138,5 +140,77 @@ http://localhost:3000/orders/ducks/685d4e4bd7ec88766ab22fd1
   "totalToPay": 7338.24,
   "discountsDetails": "720",
   "incrementsDetails": "4458.24"
+}
+```
+
+### 🧪 More Example Request
+
+```json
+{
+  "color": "green",
+  "size": "Large",
+  "amountDucks": 50,
+  "destinyCountry": "India",
+  "shippingType": "land"
+}
+```
+
+```json
+{
+  "color": "yellow",
+  "size": "XLarge",
+  "amountDucks": 150,
+  "destinyCountry": "Bolivia",
+  "shippingType": "sea"
+}
+```
+
+```json
+{
+  "color": "red",
+  "size": "Medium",
+  "amountDucks": 200,
+  "destinyCountry": "Germany",
+  "shippingType": "air"
+}
+```
+
+```json
+{
+  "color": "black",
+  "size": "Large",
+  "amountDucks": 1200,
+  "destinyCountry": "USA",
+  "shippingType": "sea"
+}
+```
+
+```json
+{
+  "color": "red",
+  "size": "Small",
+  "amountDucks": 1500,
+  "destinyCountry": "India",
+  "shippingType": "air"
+}
+```
+
+```json
+{
+  "color": "green",
+  "size": "XSmall",
+  "amountDucks": 350,
+  "destinyCountry": "Bolivia",
+  "shippingType": "sea"
+}
+```
+
+```json
+{
+  "color": "yellow",
+  "size": "Large",
+  "amountDucks": 250,
+  "destinyCountry": "France",
+  "shippingType": "air"
 }
 ```
