@@ -17,6 +17,14 @@ export async function createNestServer(): Promise<express.Express> {
         'http://localhost:5173/',
         'https://duckling-shop-client-git-develop-paolas-projects-a3e71503.vercel.app/',
       ],
+      allowedHeaders: [
+        'Content-Type',
+        'Authorization',
+        'Set-Cookie',
+        'Access-Control-Allow-Origin',
+        'Cache-Control',
+        'Pragma',
+      ],
       methods: 'GET,PUT,PATCH,POST,DELETE',
       credentials: true,
     });
