@@ -14,17 +14,10 @@ export async function createNestServer(): Promise<express.Express> {
 
     app.enableCors({
       origin: [
-        'http://localhost:5173/',
-        'https://duckling-shop-client-git-develop-paolas-projects-a3e71503.vercel.app/',
+        'http://localhost:5173',
+        'https://duckling-shop-client-git-develop-paolas-projects-a3e71503.vercel.app',
       ],
-      allowedHeaders: [
-        'Content-Type',
-        'Authorization',
-        'Set-Cookie',
-        'Access-Control-Allow-Origin',
-        'Cache-Control',
-        'Pragma',
-      ],
+      allowedHeaders: ['Content-Type'],
       methods: 'GET,PUT,PATCH,POST,DELETE',
       credentials: true,
     });
