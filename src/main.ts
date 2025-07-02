@@ -12,7 +12,14 @@ export async function createNestServer(): Promise<express.Express> {
   if (!isInitialized) {
     const app = await NestFactory.create(AppModule, new ExpressAdapter(server));
 
-    app.enableCors();
+    app.enableCors({
+      origin: [
+        'http://localhost:5173/',
+        'https://duckling-shop-client.vercel.app/',
+      ],
+      methods: 'GET,PUT,PATCH,POST,DELETE',
+      credentials: true,
+    });
     app.useGlobalPipes(
       new ValidationPipe({
         whitelist: true,
