@@ -18,8 +18,7 @@ export async function createNestServer(): Promise<express.Express> {
         'https://duckling-shop-client-git-develop-paolas-projects-a3e71503.vercel.app',
       ],
       allowedHeaders: ['Content-Type'],
-      methods: 'GET,PUT,PATCH,POST,DELETE',
-      credentials: true,
+      methods: ['GET', 'PUT', 'PATCH', 'POST', 'DELETE'],
     });
     app.useGlobalPipes(
       new ValidationPipe({
