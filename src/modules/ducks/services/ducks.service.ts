@@ -8,6 +8,7 @@ import { DuckDto } from '../dtos/duck.dto';
 import { DuckRepository } from '../repositories/duck.repository';
 
 import { ApplicationExceptions } from '../../../common/exceptions/application.exceptions';
+import { Duck } from '../schemas/duck.schema';
 
 @Injectable()
 export class DucksService {
@@ -43,9 +44,16 @@ export class DucksService {
   }
 
   async update(id: string, dto: UpdateDuckDto) {
-    const duck = await this.duckRepo.update(id, dto);
+    const duck = await this.duckRepo.findById(id);
     if (!duck) this.exception.notFoundException('Duck not found');
-    return duck;
+
+    const updateFields: Partial<Duck> = {};
+
+    if (dto.size) updateFields.size = dto.size;
+    if (dto.price) updateFields.price = dto.price;
+
+    const updatedDuck = await this.duckRepo.update(id, updateFields);
+    return updatedDuck;
   }
 
   async softDeleteDuck(id: string) {

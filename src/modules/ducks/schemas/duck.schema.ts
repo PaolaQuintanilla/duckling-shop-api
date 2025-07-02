@@ -1,13 +1,14 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { ColorEnum } from '../../../common/enums/color.enum';
+import { SizeEnum } from '../../../common/enums/size.enum';
 
 @Schema({ timestamps: true })
 export class Duck extends Document {
-  @Prop({ required: true })
+  @Prop({ type: String, enum: ColorEnum, required: true })
   color: ColorEnum;
 
-  @Prop({ required: true })
+  @Prop({ type: String, enum: SizeEnum, required: true })
   size: string;
 
   @Prop({ required: true })

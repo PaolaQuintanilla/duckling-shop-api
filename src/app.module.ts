@@ -10,6 +10,10 @@ import { OrdersModule } from './modules/orders/orders.module';
     DucksModule,
     MongooseModule.forRoot(
       'mongodb+srv://sitiostests:sitiostests123@cluster0.yshomnd.mongodb.net/duck-store',
+      {
+        retryAttempts: 5,
+        retryDelay: 3000,
+      },
     ),
     OrdersModule,
   ],
