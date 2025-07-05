@@ -25,6 +25,12 @@ export class OrdersService {
     const { size, shippingType, color, amountDucks, destinyCountry } =
       createOrderDto;
 
+    if (duck.color !== color || duck.size !== size) {
+      this.exception.badRequestException(
+        'The provided color or size do not match the duck.',
+      );
+    }
+
     //packaging and filler
     const packageDuck = PackageFactory.createPackage(size);
     const fillerStrategy = FillerFactory.getFillerStrategy(shippingType);

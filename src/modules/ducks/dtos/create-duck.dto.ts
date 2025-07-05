@@ -8,6 +8,7 @@ import {
 } from 'class-validator';
 import { SizeEnum } from '../../../common/enums/size.enum';
 import { ColorEnum } from '../../../common/enums/color.enum';
+import { Transform } from 'class-transformer';
 
 export class CreateDuckDto {
   @IsMongoId()
@@ -17,11 +18,13 @@ export class CreateDuckDto {
   @IsString()
   @IsEnum(ColorEnum, { message: 'bad color' })
   @IsNotEmpty()
+  @Transform(({ value }) => value?.toLowerCase())
   color: ColorEnum;
 
   @IsString()
   @IsEnum(SizeEnum, { message: 'bad size' })
   @IsNotEmpty()
+  @Transform(({ value }) => value?.toLowerCase())
   size: SizeEnum;
 
   @IsNumber()

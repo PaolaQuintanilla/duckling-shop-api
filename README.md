@@ -36,11 +36,6 @@ Each module contains its own domain logic:
 | Jest              | ^29.5.0 | Testing framework                            |
 | Supertest         | ^7.0.0  | End-to-end HTTP testing                      |
 
-### 🔍 Scripts
-
-- `npm run start:dev` – Start development server with hot-reload.
-- `npm run test` – Run unit tests.
-
 ### 📂 Database: MongoDB
 
 This project uses **MongoDB** as its main database with **two collections**:
@@ -58,10 +53,12 @@ Stores duck entity data.
   "price": 40,
   "erased": false
 }
+```
 
 📦 orders Collection
 Stores order data related to ducks.
 
+```json
 {
   "size": "Small",
   "color": "red",
@@ -71,15 +68,42 @@ Stores order data related to ducks.
 }
 ```
 
+### Project Database Setup and Entities
+
+#### Database Connection
+
+The backend is connected to a MongoDB database which is already configured. You don't need to worry about any database configurations. Simply follow these steps to start the backend project.
+
+#### Database URI
+
+mongodb+srv://sitiostests:sitiostests123@cluster0.yshomnd.mongodb.net/
+
+> **Note**: This is a MongoDB Atlas connection URI, so there is no need for local database setup or configuration.
+
+### Backend Setup
+
+1. **Clone the Repository**:
+   Clone the repository to your local machine using `git clone` command.
+
+2. **Install Dependencies**:
+   Navigate to the project directory and install the dependencies.
+
+### 🔍 Scripts
+
+- `npm i -g @nestjs/cli` - Install nestjs
+- `npm install` - Install dependencies
+- `npm run start:dev` – Start development server with hot-reload.
+- `npm run test` – Run unit tests.
+
 ### 🦆 Ducks Endpoints
 
-| Method  | Endpoint           | Description                             |
-| ------- | ------------------ | --------------------------------------- |
-| `POST`  | `/ducks`           | Create a new duck                       |
-| `GET`   | `/ducks`           | Get all ducks                           |
-| `GET`   | `/ducks/:id`       | Get a single duck by ID                 |
-| `PUT`   | `/ducks/:id`       | Update a duck by ID                     |
-| `PATCH` | `/ducks/:id/erase` | Soft delete a duck (set `erased: true`) |
+| Method  | Endpoint           | Description                               |
+| ------- | ------------------ | ----------------------------------------- |
+| `POST`  | `/ducks`           | Create a new duck                         |
+| `GET`   | `/ducks`           | Get all ducks                             |
+| `GET`   | `/ducks/:id`       | Get a single duck by ID                   |
+| `PUT`   | `/ducks/:id`       | Update a duck by ID                       |
+| `PATCH` | `/ducks/:id/erase` | Soft delete a duck (set `isErased: true`) |
 
 ## 📦 Orders Endpoints
 
@@ -138,5 +162,77 @@ http://localhost:3000/orders/ducks/685d4e4bd7ec88766ab22fd1
   "totalToPay": 7338.24,
   "discountsDetails": "720",
   "incrementsDetails": "4458.24"
+}
+```
+
+### 🧪 More Example Request
+
+```json
+{
+  "color": "green",
+  "size": "Large",
+  "amountDucks": 50,
+  "destinyCountry": "India",
+  "shippingType": "land"
+}
+```
+
+```json
+{
+  "color": "yellow",
+  "size": "XLarge",
+  "amountDucks": 150,
+  "destinyCountry": "Bolivia",
+  "shippingType": "sea"
+}
+```
+
+```json
+{
+  "color": "red",
+  "size": "Medium",
+  "amountDucks": 200,
+  "destinyCountry": "Germany",
+  "shippingType": "air"
+}
+```
+
+```json
+{
+  "color": "black",
+  "size": "Large",
+  "amountDucks": 1200,
+  "destinyCountry": "USA",
+  "shippingType": "sea"
+}
+```
+
+```json
+{
+  "color": "red",
+  "size": "Small",
+  "amountDucks": 1500,
+  "destinyCountry": "India",
+  "shippingType": "air"
+}
+```
+
+```json
+{
+  "color": "green",
+  "size": "XSmall",
+  "amountDucks": 350,
+  "destinyCountry": "Bolivia",
+  "shippingType": "sea"
+}
+```
+
+```json
+{
+  "color": "yellow",
+  "size": "Large",
+  "amountDucks": 250,
+  "destinyCountry": "France",
+  "shippingType": "air"
 }
 ```

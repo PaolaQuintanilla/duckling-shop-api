@@ -9,7 +9,7 @@ import { OrdersModule } from './modules/orders/orders.module';
   imports: [
     DucksModule,
     MongooseModule.forRoot(
-      'mongodb+srv://sitiostests:sitiostests123@cluster0.yshomnd.mongodb.net/',
+      'mongodb+srv://sitiostests:sitiostests123@cluster0.yshomnd.mongodb.net/duck-store',
     ),
     OrdersModule,
   ],
