@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { ColorEnum } from '../../../common/enums/color.enum';
+import { ColorEnum } from '../domain/color.enum';
 
 @Schema({ timestamps: true })
 export class Duck extends Document {

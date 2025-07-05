@@ -17,14 +17,11 @@ export class DuckDto {
   _id: string;
 
   @Exclude()
-  createdAt: Date;
+  createdAt?: Date;
 
   @Exclude()
-  updatedAt: Date;
+  updatedAt?: Date;
 
   @Exclude()
-  __v: number;
-
-  @Exclude()
-  isErased: boolean;
+  isErased?: boolean;
 }

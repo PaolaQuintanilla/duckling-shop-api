@@ -3,7 +3,7 @@ import { DucksController } from './ducks.controller';
 import { DucksService } from '../services/ducks.service';
 import { CreateDuckDto } from '../dtos/create-duck.dto';
 import { UpdateDuckDto } from '../dtos/update-duck.dto';
-import { ColorEnum } from '../../../common/enums/color.enum';
+import { ColorEnum } from '../domain/color.enum';
 import { SizeEnum } from '../../../common/enums/size.enum';
 
 describe('DucksController', () => {
