@@ -4,7 +4,6 @@ import {
   Post,
   Body,
   Param,
-  Patch,
   Put,
   HttpCode,
   HttpStatus,
@@ -37,19 +36,20 @@ export class DucksController {
     return ducksResponse;
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.ducksService.findOne(id);
-  }
-
-  // @Put(':id')
-  // update(@Param('id') id: string, @Body() dto: UpdateDuckDto) {
-  //   return this.ducksService.update(id, dto);
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.ducksService.findOne(id);
   // }
 
-  @Patch(':id/erase')
-  async eraseDuck(@Param('id') id: string) {
-    const duck = await this.ducksService.softDeleteDuck(id);
-    return { message: `Duck with id ${id} has been marked as erased`, duck };
+  @Put(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async update(@Param('id') id: string, @Body() dto: UpdateDuckDto) {
+    await this.ducksService.update(id, dto);
   }
+
+  // @Patch(':id/erase')
+  // async eraseDuck(@Param('id') id: string) {
+  //   const duck = await this.ducksService.softDeleteDuck(id);
+  //   return { message: `Duck with id ${id} has been marked as erased`, duck };
+  // }
 }

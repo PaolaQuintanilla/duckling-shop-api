@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { plainToInstance } from 'class-transformer';
 
 import { CreateDuckDto } from '../dtos/create-duck.dto';
 import { UpdateDuckDto } from '../dtos/update-duck.dto';
@@ -50,20 +49,8 @@ export class DucksService {
       this.exception.badRequestException(result.error.message);
     }
 
-    const validDuck = result.value;
-    const createDuckDb: Partial<Duck> =
-      this.mapDuckEntityToPersistence(validDuck);
-    return await this.duckRepo.create(createDuckDb);
-  }
-
-  mapDuckEntityToPersistence(entity: DuckEntity): Partial<Duck> {
-    return {
-      color: entity.color,
-      size: entity.size,
-      quantity: entity.quantity,
-      price: entity.price,
-      isErased: entity.isErased,
-    };
+    const duckTOInsert = result.value;
+    return await this.duckRepo.create(duckTOInsert);
   }
 
   async findAll() {
@@ -80,27 +67,42 @@ export class DucksService {
     return duckDtos;
   }
 
-  async findOne(id: string): Promise<DuckDto> {
-    const duck = await this.duckRepo.findById(id);
-    if (!duck) this.exception.notFoundException('Duck not found');
-    return plainToInstance(DuckDto, duck.toObject());
-  }
-
-  // async update(id: string, dto: UpdateDuckDto) {
-  //   const duck = await this.duckRepo.update(id, dto);
+  // async findOne(id: string): Promise<DuckDto> {
+  //   const duck = await this.duckRepo.findById(id);
   //   if (!duck) this.exception.notFoundException('Duck not found');
-  //   return duck;
+  //   return plainToInstance(DuckDto, duck.toObject());
   // }
 
-  async softDeleteDuck(id: string) {
+  async update(id: string, dto: UpdateDuckDto) {
+    const { color, size, price, quantity } = dto;
     const duck = await this.duckRepo.findById(id);
 
-    if (!duck) {
-      this.exception.notFoundException(`Duck with id ${id} not found`);
+    if (!duck) this.exception.notFoundException('Duck not found');
+
+    const duckUpdateResult = duck.update({
+      color: color as ColorEnum,
+      size,
+      price,
+      quantity,
+    });
+
+    if (duckUpdateResult.isFailure) {
+      this.exception.badRequestException(duckUpdateResult.error.message);
     }
 
-    duck.isErased = true;
-
-    return duck.save();
+    const duckUpdated = await this.duckRepo.update(id, duckUpdateResult.value);
+    return duckUpdated.id;
   }
+
+  // async softDeleteDuck(id: string) {
+  //   const duck = await this.duckRepo.findById(id);
+
+  //   if (!duck) {
+  //     this.exception.notFoundException(`Duck with id ${id} not found`);
+  //   }
+
+  //   duck.isErased = true;
+
+  //   return duck.save();
+  // }
 }

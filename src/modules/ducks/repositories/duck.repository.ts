@@ -1,15 +1,49 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
 import { Duck } from '../schemas/duck.schema';
-
+import { DuckEntity } from '../domain/Duck';
+import { ApplicationExceptions } from 'src/common/exceptions/application.exceptions';
+import { Error as MongooseError, mongo, Model } from 'mongoose';
 @Injectable()
 export class DuckRepository {
-  constructor(@InjectModel(Duck.name) private duckModel: Model<Duck>) {}
+  constructor(
+    @InjectModel(Duck.name) private duckModel: Model<Duck>,
+    private exception: ApplicationExceptions,
+  ) {}
 
-  create(data: Partial<Duck>): Promise<Duck> {
-    const created = new this.duckModel(data);
-    return created.save();
+  async create(duckEntity: DuckEntity): Promise<Duck> {
+    try {
+      const data: Partial<Duck> = this.mapDuckEntityToPersistence(duckEntity);
+      const created = new this.duckModel(data);
+
+      return await created.save();
+    } catch (error) {
+      if (error instanceof MongooseError.ValidationError) {
+        this.exception.notFoundException(
+          'Dabata schema does not mache the entity',
+        );
+      }
+
+      if (error instanceof mongo.MongoServerError && error.code === 11000) {
+        this.exception.notFoundException(error.message);
+      }
+
+      if (error instanceof MongooseError.CastError) {
+        this.exception.notFoundException(error.message);
+      }
+
+      this.exception.notFoundException(error.message);
+    }
+  }
+
+  mapDuckEntityToPersistence(entity: DuckEntity): Partial<Duck> {
+    return {
+      color: entity.color,
+      size: entity.size,
+      quantity: entity.quantity,
+      price: entity.price,
+      isErased: entity.isErased,
+    };
   }
 
   findAll(): Promise<Duck[]> {
@@ -29,16 +63,42 @@ export class DuckRepository {
       .exec();
   }
 
-  async findById(id: string): Promise<Duck> {
+  async findById(id: string): Promise<DuckEntity> {
     const duck = await this.duckModel
       .findOne({ _id: id, isErased: false })
       .exec();
 
-    return duck;
+    return DuckEntity.hidrate({
+      id: duck.id,
+      color: duck.color,
+      size: duck.size,
+      price: duck.price,
+      quantity: duck.quantity,
+    });
   }
 
-  update(id: string, data: Partial<Duck>): Promise<Duck> {
-    return this.duckModel.findByIdAndUpdate(id, data, { new: true }).exec();
+  update(id: string, duckEntity: DuckEntity): Promise<Duck> {
+    try {
+      const data: Partial<Duck> = this.mapDuckEntityToPersistence(duckEntity);
+
+      return this.duckModel.findByIdAndUpdate(id, data, { new: true }).exec();
+    } catch (error) {
+      if (error instanceof MongooseError.ValidationError) {
+        this.exception.notFoundException(
+          'Dabata schema does not mache the entity',
+        );
+      }
+
+      if (error instanceof mongo.MongoServerError && error.code === 11000) {
+        this.exception.notFoundException(error.message);
+      }
+
+      if (error instanceof MongooseError.CastError) {
+        this.exception.notFoundException(error.message);
+      }
+
+      this.exception.notFoundException(error.message);
+    }
   }
 
   async updateQuantity(duck: Duck, quantityToAdd: number): Promise<Duck> {
