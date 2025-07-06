@@ -17,7 +17,7 @@ export class DucksService {
   constructor(
     private exception: ApplicationExceptions,
     private readonly duckRepo: DuckRepository,
-  ) { }
+  ) {}
 
   async createOrUpdateDuck(createDuckDto: CreateDuckDto) {
     const { color, size, price, quantity } = createDuckDto;

@@ -16,7 +16,7 @@ import { DuckDto } from '../dtos/duck.dto';
 
 @Controller('ducks')
 export class DucksController {
-  constructor(private readonly ducksService: DucksService) { }
+  constructor(private readonly ducksService: DucksService) {}
 
   @Post()
   @HttpCode(HttpStatus.CREATED)

@@ -8,7 +8,7 @@ import { OrderEntity } from '../domain/entities/order';
 export class OrderRepository {
   constructor(
     @InjectModel(Order.name) private orderModel: Model<OrderDocument>,
-  ) {}
+  ) { }
 
   async create(orderEntity: OrderEntity): Promise<Order> {
     const orderToSave = this.mapDuckEntityToPersistence(orderEntity);
@@ -30,5 +30,11 @@ export class OrderRepository {
       increments: entity.increments,
       finalPrice: entity.finalPrice,
     };
+  }
+
+  async findAll(): Promise<Order[]> {
+    const orders = await this.orderModel.find().exec();
+
+    return orders;
   }
 }

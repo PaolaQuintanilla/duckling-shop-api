@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Post } from '@nestjs/common';
 import { OrdersService } from '../services/orders.service';
 import { CreateOrderDto } from '../dtos/create-order.dto';
 import { OrderResponseDto } from '../dtos/order-response.dto';
@@ -30,5 +30,12 @@ export class OrdersController {
     );
 
     return orderResponse;
+  }
+
+  @Get()
+  @HttpCode(200)
+  @HttpCode(500)
+  async findAll(): Promise<OrderResponseDto[]> {
+    return await this.ordersService.findAll();
   }
 }
