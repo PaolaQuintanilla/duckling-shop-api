@@ -1,6 +1,6 @@
 export interface PriceBreakdown {
   basePrice: number;
-  discounts: string;
-  increments: string;
+  discounts: number;
+  increments: number;
   finalPrice: number;
 }

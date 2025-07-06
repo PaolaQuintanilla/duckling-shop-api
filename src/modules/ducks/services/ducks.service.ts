@@ -8,7 +8,7 @@ import { DuckRepository } from '../repositories/duck.repository';
 
 import { ApplicationExceptions } from '../../../common/exceptions/application.exceptions';
 import { DuckEntity } from '../domain/Duck';
-import { Result } from '../domain/Result';
+import { Result } from '../../../common/Result';
 import { Duck } from '../schemas/duck.schema';
 import { ColorEnum } from '../domain/color.enum';
 
@@ -67,11 +67,19 @@ export class DucksService {
     return duckDtos;
   }
 
-  // async findOne(id: string): Promise<DuckDto> {
-  //   const duck = await this.duckRepo.findById(id);
-  //   if (!duck) this.exception.notFoundException('Duck not found');
-  //   return plainToInstance(DuckDto, duck.toObject());
-  // }
+  async findOne(id: string): Promise<DuckDto> {
+    const duck = await this.duckRepo.findById(id);
+    if (!duck) this.exception.notFoundException('Duck not found');
+    const duckDto: DuckDto = {
+      _id: duck.id,
+      color: duck.color,
+      price: duck.price,
+      quantity: duck.quantity,
+      size: duck.size,
+    };
+
+    return duckDto;
+  }
 
   async update(id: string, dto: UpdateDuckDto) {
     const { color, size, price, quantity } = dto;
@@ -94,15 +102,15 @@ export class DucksService {
     return duckUpdated.id;
   }
 
-  // async softDeleteDuck(id: string) {
-  //   const duck = await this.duckRepo.findById(id);
+  async softDeleteDuck(id: string) {
+    const duck: DuckEntity = await this.duckRepo.findById(id);
 
-  //   if (!duck) {
-  //     this.exception.notFoundException(`Duck with id ${id} not found`);
-  //   }
+    if (!duck) {
+      this.exception.notFoundException(`Duck with id ${id} not found`);
+    }
 
-  //   duck.isErased = true;
+    duck.delete();
 
-  //   return duck.save();
-  // }
+    return this.duckRepo.saveAsync(duck);
+  }
 }

@@ -1,5 +1,5 @@
 import { ColorEnum } from './color.enum';
-import { Result } from './Result';
+import { Result } from '../../../common/Result';
 
 export class DuckEntity {
   private constructor(
@@ -98,6 +98,10 @@ export class DuckEntity {
     );
 
     return Result.success(duck);
+  }
+
+  delete() {
+    this._isErased = true;
   }
 
   public get price(): number {

@@ -1,11 +1,8 @@
-import { Injectable } from '@nestjs/common';
-import { ShippingTypeEnum } from '../../../common/enums/shipping-type.enum';
-import { IPriceCalculator } from '../../../common/interfaces/price-calculator.interface';
-import { PriceBreakdown } from '../../../common/interfaces/price-breakdown.interface';
+import { ShippingTypeEnum } from 'src/common/enums/shipping-type.enum';
+import { PriceBreakdown } from 'src/common/interfaces/price-breakdown.interface';
 
-@Injectable()
-export class PriceCalculatorService implements IPriceCalculator {
-  calculate(
+export class Pricing {
+  static calculate(
     unitPrice: number,
     quantity: number,
     material: string,
@@ -83,8 +80,8 @@ export class PriceCalculatorService implements IPriceCalculator {
 
     return {
       basePrice: parseFloat(basePrice.toFixed(2)),
-      discounts: parseFloat(discounts.toFixed(2)).toString(),
-      increments: parseFloat(increments.toFixed(2)).toString(),
+      discounts: parseFloat(discounts.toFixed(2)),
+      increments: parseFloat(increments.toFixed(2)),
       finalPrice: parseFloat(total.toFixed(2)),
     };
   }

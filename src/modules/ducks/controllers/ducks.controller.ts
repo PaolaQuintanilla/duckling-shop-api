@@ -7,6 +7,7 @@ import {
   Put,
   HttpCode,
   HttpStatus,
+  Patch,
 } from '@nestjs/common';
 import { DucksService } from '../services/ducks.service';
 import { CreateDuckDto } from '../dtos/create-duck.dto';
@@ -32,14 +33,16 @@ export class DucksController {
   @HttpCode(200)
   @HttpCode(500)
   async findAll(): Promise<DuckDto[]> {
-    const ducksResponse = await this.ducksService.findAll();
-    return ducksResponse;
+    return await this.ducksService.findAll();
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.ducksService.findOne(id);
-  // }
+  @Get(':id')
+  @HttpCode(200)
+  @HttpCode(404)
+  @HttpCode(500)
+  async findOne(@Param('id') id: string): Promise<DuckDto> {
+    return await this.ducksService.findOne(id);
+  }
 
   @Put(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
@@ -47,9 +50,9 @@ export class DucksController {
     await this.ducksService.update(id, dto);
   }
 
-  // @Patch(':id/erase')
-  // async eraseDuck(@Param('id') id: string) {
-  //   const duck = await this.ducksService.softDeleteDuck(id);
-  //   return { message: `Duck with id ${id} has been marked as erased`, duck };
-  // }
+  @Patch(':id/erase')
+  async eraseDuck(@Param('id') id: string) {
+    const duck = await this.ducksService.softDeleteDuck(id);
+    return { message: `Duck with id ${id} has been marked as erased`, duck };
+  }
 }
