@@ -12,6 +12,19 @@
       "program": "${workspaceFolder}/src/modules/ducks/services/ducks.service.ts",
       "preLaunchTask": "tsc: build - tsconfig.json",
       "outFiles": ["${workspaceFolder}/dist/**/*.js"]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch Jest Tests",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "test"],
+      "skipFiles": ["<node_internals>/**"],
+      "env": {
+        "NODE_ENV": "test"
+      },
+      "console": "integratedTerminal", // Option to log to the integrated terminal
+      "internalConsoleOptions": "neverOpen" // Prevents VS Code's debug console from opening by default
     }
   ]
 }

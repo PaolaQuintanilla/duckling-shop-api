@@ -44,7 +44,10 @@ describe('DucksController', () => {
       size: SizeEnum.XLarge,
       price: 20,
     };
-    mockDucksService.createOrUpdateDuck.mockResolvedValue({ id: '123', message: 'Duck created successfully' });
+    mockDucksService.createOrUpdateDuck.mockResolvedValue({
+      id: '123',
+      message: 'Duck created successfully',
+    });
     controller.create(dto);
     expect(service.createOrUpdateDuck).toHaveBeenCalledWith(dto);
   });
@@ -66,7 +69,13 @@ describe('DucksController', () => {
   });
 
   it('should call softDeleteDuck and return formatted message', async () => {
-    const duckMock = { id: '789', name: 'Scrooge' };
+    const duckMock = {
+      id: '789',
+      color: 'red',
+      size: 'medium',
+      price: 30,
+      quantity: 29,
+    };
     mockDucksService.softDeleteDuck.mockResolvedValue(duckMock);
 
     const result = await controller.eraseDuck('789');

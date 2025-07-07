@@ -3,8 +3,8 @@ import { Result } from '../../../common/Result';
 
 export class DuckEntity {
   private constructor(
-    public readonly color: ColorEnum,
-    public readonly size: string,
+    private _color: ColorEnum,
+    private _size: string,
     private _quantity: number,
     private _price: number,
     public readonly id?: string,
@@ -110,6 +110,14 @@ export class DuckEntity {
 
   public get quantity(): number {
     return this._quantity;
+  }
+
+  public get color(): ColorEnum {
+    return this._color;
+  }
+
+  public get size(): string {
+    return this._size;
   }
 
   public get isErased(): boolean {

@@ -2,6 +2,9 @@ import { Exclude, Expose } from 'class-transformer';
 
 export class DuckDto {
   @Expose()
+  _id: string;
+
+  @Expose()
   color: string;
 
   @Expose()
@@ -12,9 +15,6 @@ export class DuckDto {
 
   @Expose()
   price: number;
-
-  @Exclude()
-  _id: string;
 
   @Exclude()
   createdAt?: Date;

@@ -7,7 +7,7 @@ import {
   Put,
   HttpCode,
   HttpStatus,
-  Patch,
+  Delete,
 } from '@nestjs/common';
 import { DucksService } from '../services/ducks.service';
 import { CreateDuckDto } from '../dtos/create-duck.dto';
@@ -16,7 +16,7 @@ import { DuckDto } from '../dtos/duck.dto';
 
 @Controller('ducks')
 export class DucksController {
-  constructor(private readonly ducksService: DucksService) { }
+  constructor(private readonly ducksService: DucksService) {}
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
@@ -50,7 +50,7 @@ export class DucksController {
     await this.ducksService.update(id, dto);
   }
 
-  @Patch(':id/erase')
+  @Delete(':id')
   async eraseDuck(@Param('id') id: string) {
     const duck = await this.ducksService.softDeleteDuck(id);
     return { message: `Duck with id ${id} has been marked as erased`, duck };

@@ -36,7 +36,7 @@ export class OrdersService {
     });
 
     if (orderResult.isFailure) {
-      this.exception.badRequestException('sdsd');
+      this.exception.badRequestException('failure');
     }
 
     await this.orderRepository.create(orderResult.value);

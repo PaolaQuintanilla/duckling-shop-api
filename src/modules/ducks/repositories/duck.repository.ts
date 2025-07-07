@@ -14,7 +14,7 @@ export class DuckRepository {
   constructor(
     @InjectModel(Duck.name) private duckModel: Model<Duck>,
     private exception: ApplicationExceptions,
-  ) { }
+  ) {}
 
   async create(duckEntity: DuckEntity): Promise<Duck> {
     return await this.saveAsync(duckEntity);

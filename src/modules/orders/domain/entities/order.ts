@@ -54,12 +54,6 @@ export class OrderEntity {
       });
     }
 
-    // if (duck.color !== color || duck.size !== size) {
-    //     this.exception.badRequestException(
-    //         'The provided color or size do not match the duck.',
-    //     );
-    // }
-
     const packageDuck: Package = PackageFactory.createPackage(size);
     const fillerStrategy: FillerStrategy =
       FillerFactory.getFillerStrategy(shippingType);
