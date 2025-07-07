@@ -1,10 +1,10 @@
 import { ShippingTypeEnum } from 'src/common/enums/shipping-type.enum';
 import { SizeEnum } from 'src/common/enums/size.enum';
 import { Result } from 'src/common/Result';
-import { PackageFactory } from '../../services/packaging/packages/package-factory';
-import { FillerFactory } from '../../services/packaging/fillers/filler-factory';
-import { Package } from '../../services/packaging/packages/package.interface';
-import { FillerStrategy } from '../../services/packaging/fillers/filler-strategy.interface';
+import { PackageFactory } from '../packaging/packages/package-factory';
+import { FillerFactory } from '../packaging/fillers/filler-factory';
+import { Package } from '../packaging/packages/package.interface';
+import { FillerStrategy } from '../packaging/fillers/filler-strategy.interface';
 import { Pricing } from './Pricing';
 
 export class OrderEntity {
