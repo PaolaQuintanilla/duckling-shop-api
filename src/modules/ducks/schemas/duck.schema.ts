@@ -4,7 +4,7 @@ import { ColorEnum } from '../domain/color.enum';
 
 @Schema({ timestamps: true })
 export class Duck extends Document {
-  @Prop({ required: true })
+  @Prop({ type: String, enum: Object.values(ColorEnum), required: true })
   color: ColorEnum;
 
   @Prop({ required: true })

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Duck } from '../schemas/duck.schema';
 import { DuckEntity } from '../domain/Duck';
-import { ApplicationExceptions } from 'src/common/exceptions/application.exceptions';
+import { ApplicationExceptions } from '../../../common/exceptions/application.exceptions';
 import {
   Error as MongooseError,
   mongo,
@@ -14,7 +14,7 @@ export class DuckRepository {
   constructor(
     @InjectModel(Duck.name) private duckModel: Model<Duck>,
     private exception: ApplicationExceptions,
-  ) {}
+  ) { }
 
   async create(duckEntity: DuckEntity): Promise<Duck> {
     return await this.saveAsync(duckEntity);
@@ -29,7 +29,7 @@ export class DuckRepository {
     } catch (error) {
       if (error instanceof MongooseError.ValidationError) {
         this.exception.notFoundException(
-          'Dabata schema does not mache the entity',
+          'Data schema does not match the entity',
         );
       }
 

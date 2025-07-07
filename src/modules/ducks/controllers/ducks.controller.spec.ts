@@ -40,11 +40,11 @@ describe('DucksController', () => {
   it('should call createOrUpdateDuck on create', () => {
     const dto: CreateDuckDto = {
       quantity: 45,
-      duckId: '',
       color: ColorEnum.Red,
       size: SizeEnum.XLarge,
       price: 20,
     };
+    mockDucksService.createOrUpdateDuck.mockResolvedValue({ id: '123', message: 'Duck created successfully' });
     controller.create(dto);
     expect(service.createOrUpdateDuck).toHaveBeenCalledWith(dto);
   });
