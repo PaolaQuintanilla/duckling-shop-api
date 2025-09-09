@@ -13,9 +13,7 @@ export async function createNestServer(): Promise<express.Express> {
     const app = await NestFactory.create(AppModule, new ExpressAdapter(server));
 
     app.enableCors({
-      origin: [
-        'https://duckling-shop-client-git-develop-paolas-projects-a3e71503.vercel.app',
-      ],
+      origin: ['https://duckling-shop-client.vercel.app'],
       allowedHeaders: ['Content-Type'],
       methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
       credentials: true,
